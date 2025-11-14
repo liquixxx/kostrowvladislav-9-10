@@ -1,76 +1,96 @@
 public class TernarySearch {
 
-    // Рекурсивная реализация
-    public static int ternarySearchRecursive(int[] arr, int left, int right, int target) {
+    public static int ternarySearch(int[] arr, int left, int right, int x) {
         if (right >= left) {
-            // Находим две опорные точки
-            int mid1 = left + (right - left) / 3;
-            int mid2 = right - (right - left) / 3;
+            // Находим два разделителя
+            int m1 = left + (right - left) / 3;
+            int m2 = right - (right - left) / 3;
 
-            // Если элемент найден в mid1 или mid2
-            if (arr[mid1] == target) {
-                return mid1;
+            // Если элемент найден в одном из разделителей
+            if (arr[m1] == x) {
+                return m1;
             }
-            if (arr[mid2] == target) {
-                return mid2;
-            }
-
-            // Рекурсивно вызываем для соответствующей подмассива
-            if (target < arr[mid1]) {
-                return ternarySearchRecursive(arr, left, mid1 - 1, target);
-            } else if (target > arr[mid2]) {
-                return ternarySearchRecursive(arr, mid2 + 1, right, target);
-            } else {
-                return ternarySearchRecursive(arr, mid1 + 1, mid2 - 1, target);
-            }
-        }
-
-        // Элемент не найден
-        return -1;
-    }
-
-    // Итеративная реализация
-    public static int ternarySearchIterative(int[] arr, int left, int right, int target) {
-        while (right >= left) {
-            // Находим две опорные точки
-            int mid1 = left + (right - left) / 3;
-            int mid2 = right - (right - left) / 3;
-
-            // Если элемент найден в mid1 или mid2
-            if (arr[mid1] == target) {
-                return mid1;
-            }
-            if (arr[mid2] == target) {
-                return mid2;
+            if (arr[m2] == x) {
+                return m2;
             }
 
-            // Сужаем диапазон поиска
-            if (target < arr[mid1]) {
-                right = mid1 - 1;
-            } else if (target > arr[mid2]) {
-                left = mid2 + 1;
-            } else {
-                left = mid1 + 1;
-                right = mid2 - 1;
+            // Если элемент находится в первой части
+            if (x < arr[m1]) {
+                return ternarySearch(arr, left, m1 - 1, x);
+            }
+            // Если элемент находится в третьей части
+            else if (x > arr[m2]) {
+                return ternarySearch(arr, m2 + 1, right, x);
+            }
+            // Если элемент находится во второй части
+            else {
+                return ternarySearch(arr, m1 + 1, m2 - 1, x);
             }
         }
-
         // Элемент не найден
         return -1;
     }
 
     public static void main(String[] args) {
-        int[] arr = { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19 };
-        int target = 11;
+        int[] arr = {2, 3, 4, 10, 40};
+        int x = 10;
+        int left = 0;
+        int right = arr.length - 1;
 
-        // Вызов рекурсивной функции
-        int resultRecursive = ternarySearchRecursive(arr, 0, arr.length - 1, target);
-        if (resultRecursive != -1) {
-            System.out.println("Рекурсивная версия: Элемент найден по индексу " + resultRecursive);
+        int result = ternarySearch(arr, left, right, x);
+
+        if (result == -1) {
+            System.out.println("Элемент не найден");
         } else {
-            System.out.println("Рекурсивная версия: Элемент не найден");
+            System.out.println("Элемент найден на индексе: " + result);
         }
+    }
+}
+public class TernarySearch {
 
-        // Вызов итеративной функции
-        int resultIterative = ternarySearchIterative(arr, 0, arr.length - 1, target);
-        if (resultIterative != -1
+    public static int ternarySearch(int[] arr, int left, int right, int x) {
+        if (right >= left) {
+            // Находим два разделителя
+            int m1 = left + (right - left) / 3;
+            int m2 = right - (right - left) / 3;
+
+            // Если элемент найден в одном из разделителей
+            if (arr[m1] == x) {
+                return m1;
+            }
+            if (arr[m2] == x) {
+                return m2;
+            }
+
+            // Если элемент находится в первой части
+            if (x < arr[m1]) {
+                return ternarySearch(arr, left, m1 - 1, x);
+            }
+            // Если элемент находится в третьей части
+            else if (x > arr[m2]) {
+                return ternarySearch(arr, m2 + 1, right, x);
+            }
+            // Если элемент находится во второй части
+            else {
+                return ternarySearch(arr, m1 + 1, m2 - 1, x);
+            }
+        }
+        // Элемент не найден
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {2, 3, 4, 10, 40};
+        int x = 10;
+        int left = 0;
+        int right = arr.length - 1;
+
+        int result = ternarySearch(arr, left, right, x);
+
+        if (result == -1) {
+            System.out.println("Элемент не найден");
+        } else {
+            System.out.println("Элемент найден на индексе: " + result);
+        }
+    }
+}
